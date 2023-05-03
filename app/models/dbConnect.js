@@ -5,7 +5,7 @@ const app = express();
 mongoose.connect('mongodb://127.0.0.1:27017/map', 
 { useNewUrlParser: true, useUnifiedTopology: true })
 .then((result) => { // Successfully connected
-    // console.log(result);
+    console.log("Database Connected");
   })
   .catch((err) => {
     // Catch any potential error

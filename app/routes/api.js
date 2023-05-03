@@ -1,14 +1,23 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const app = express();
+const auth = require("../controllers/authController.js");
 
-// Home page route.
-router.get("/", function (req, res) {
-  res.send("Wiki home page");
-});
+// express.json()
+// app.use(express.json())
 
-// About page route.
-router.get("/about", function (req, res) {
-  res.send("About this wiki");
-});
+// express.urlencoded()
+// app.use(express.urlencoded())
 
-module.exports = router;
+
+// route
+app.get('/', (req, res, next) => {
+
+    res.status(200).json({
+        message: "Welcome to the home"
+    });
+})
+
+app.post('/login',auth.login)
+
+
+module.exports = app
