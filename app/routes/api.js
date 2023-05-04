@@ -1,12 +1,9 @@
 const express = require('express')
 const app = express();
 const auth = require("../controllers/authController.js");
+const favorite = require("../controllers/favoriteController.js");
+app.use(express.json())
 
-// express.json()
-// app.use(express.json())
-
-// express.urlencoded()
-// app.use(express.urlencoded())
 
 
 // route
@@ -17,7 +14,17 @@ app.get('/', (req, res, next) => {
     });
 })
 
-app.post('/login',auth.login)
+app.post('/login2', (req, res, next) => {
+    console.log(req.body);
+    res.status(200).json({
+        message: "Welcome to the home"
+    });
+})
+
+app.post('/login',auth.login);
+app.post('/register',auth.register);
+app.post('/addToFavorite',favorite.store);
+app.post('/favoriteList',favorite.list);
 
 
 module.exports = app
