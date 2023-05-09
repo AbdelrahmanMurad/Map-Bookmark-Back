@@ -26,5 +26,5 @@ app.post('/register',auth.register);
 app.post('/addToFavorite',favorite.store);
 app.post('/favoriteList',favorite.list);
 
-
+ 
 module.exports = app
