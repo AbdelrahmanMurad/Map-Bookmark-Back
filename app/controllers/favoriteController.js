@@ -1,17 +1,33 @@
 
 const FavoriteModel = require('../models/favorite.model');
 
+const Joi = require('joi');
+
 exports.store = async (req, res, next) => {
   try {
     const { username, lat, long} = req.body;
     let isValid = false;
 
-    if (!(username && lat && long)) {
-      return res.status(400).send({
-          status : false,
-          message : "All Fields are required"
-      });
-    }
+    const schema = Joi.object({
+      username: Joi.string()
+          .alphanum()
+          .min(3)
+          .max(30)
+          .required(),
+        lat: Joi.string()      
+          .required(),
+        long: Joi.string()      
+          .required(),
+  });
+  const { error, value } = schema.validate({ username: username, lat: lat, long:long });
+
+  if(error){
+    return res.status(400).json({
+      status : false,
+      message : error.details[0].message
+    });
+  }
+
     await FavoriteModel.find({ "username":username, "lat":lat, "long":long })
     .then(data => {
       if (data.length == 0){
