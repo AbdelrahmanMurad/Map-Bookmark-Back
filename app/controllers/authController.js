@@ -21,16 +21,23 @@ exports.login = (req, res) => {
           .required(),
   });
   
-  const { error, value } = schema.validate({ username: username, password: password });  
+  const { error, value } = schema.validate({ username: username, password: password }); 
+  if(error){
+    return res.status(400).json({
+      status : false,
+      message : error.details[0].message
+    });
+  } 
 
     UserModel.find({
         "username" : username,
         "password" : password
     })
     .then(data => {
-      if (!data){
+      console.log(data);
+      if (data.length == 0){
         res.status(400).json({
-            message: "username not found successfully"
+            message: "user was not found "
         });
       }
       else {
@@ -52,7 +59,7 @@ exports.login = (req, res) => {
     .catch(err => {
         res.status(200).json({
           status : false,
-          message : error.details[0].message
+          message : err.details[0].message
         });
     });
   };
